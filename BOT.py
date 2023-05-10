@@ -24,13 +24,9 @@ async def send_video(message: types.Message):
 
     with YoutubeDL() as ydl:
         os.system(f'yt-dlp {message.text}')
-        # заходим в директорию и берем путь к файлу
-        file_name = os.listdir(new_path)[0]
+        file_name = os.listdir(new_path)[0] # заходим в директорию и берем путь к файлу
         full_path = os.path.join(new_path, file_name)
-
-        # путь к новому файлу
-        new_file = os.path.join('new_video.mp4')
-
+        new_file = os.path.join('new_video.mp4') # путь к новому файлу
         video = VideoFileClip(full_path)  # достаём аудиодорожку
         audio = video.audio
         audio.write_audiofile('audio.wav')
@@ -38,8 +34,8 @@ async def send_video(message: types.Message):
         recovered_video.write_videofile('video_to_send.mp4')
         await bot.send_video(chat_id=message.from_user.id,
                              video=open('video_to_send.mp4', 'rb'))
-        # возвращаемся в предыдущую директорию
-        os.chdir(cwd)
+
+        os.chdir(cwd) # возвращаемся в предыдущую директорию
 
 
 if __name__ == '__main__':
